@@ -5,4 +5,7 @@ This is a calculator for those on a tight budget to use while shopping. What thi
 |                     Cleared Calculation                      |                      Sample Calculation                      |                           Settings Screen                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
 
+|Cleared Calculation|Sample Calculation|Settings Creen|
+|-------------------|------------------|--------------|
+
 <img src="screenshot_cleared.png" width="30%"/>&nbsp;&nbsp;<img src ="screenshot_smallCalculation.png" width="30%"/>&nbsp;&nbsp;<img src="screenshot_Settings.png" width="30%"/>
