@@ -10,4 +10,5 @@ This is a calculator for those on a tight budget to use while shopping. What thi
   <td width="30%">Sample Calculation</td>
   <td width="30%">Settings Screen</td>
 </table>
+
 <img src="screenshot_cleared.png" width="30%"/>&nbsp;&nbsp;<img src ="screenshot_smallCalculation.png" width="30%"/>&nbsp;&nbsp;<img src="screenshot_Settings.png" width="30%"/>
