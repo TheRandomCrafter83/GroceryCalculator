@@ -4,7 +4,7 @@ This is a calculator for those on a tight budget to use while shopping. What thi
 
 |                     Cleared Calculation                      |                      Sample Calculation                      |                           Settings Screen                    |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="screenshot_cleared.png" width="50%" height="100%"/> | <img src ="https://github.com/TheRandomCrafter83/GroceryCalculator/blob/91450fe90b568067cfd62d9feb45430c7e573688/screenshot_smallCalculation.png" width="50%" height="100%"/> | <img src="https://github.com/TheRandomCrafter83/GroceryCalculator/blob/91450fe90b568067cfd62d9feb45430c7e573688/screenshot_Settings.png" width="50%" height="100%"/> |
+| <img src="screenshot_cleared.png"/> | <img src ="screenshot_smallCalculation.png"/> | <img src="screenshot_Settings.png"/> |
 
 
 
