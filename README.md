@@ -4,11 +4,5 @@ This is a calculator for those on a tight budget to use while shopping. What thi
 
 |                     Cleared Calculation                      |                      Sample Calculation                      |                           Settings Screen                    |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|              <img src="screenshot_cleared.png" width="60"/>             |         <img src ="screenshot_smallCalculation.png" width="60"/>        |             <img src="screenshot_Settings.png" width="60"/>             |
-
-
-
-|                     Cleared Calculation                      |                      Sample Calculation                      |                           Settings Screen                    |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 <img src="screenshot_cleared.png" width="30%"/>&nbsp;&nbsp;<img src ="screenshot_smallCalculation.png" width="30%"/>&nbsp;&nbsp;<img src="screenshot_Settings.png" width="30%"/>
