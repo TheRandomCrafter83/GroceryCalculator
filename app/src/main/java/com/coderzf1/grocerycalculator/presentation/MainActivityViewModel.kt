@@ -111,9 +111,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteLastCharacter() {
         mainActivityState.update { state ->
-            state.copy(
-                entry = state.entry - state.entry.last()
-            )
+            if(state.entry.isNotEmpty()) {
+                state.copy(
+                    entry = state.entry - state.entry.last()
+                )
+            } else {
+                state.copy()
+            }
         }
     }
 
@@ -134,14 +138,18 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun addEntry(entryType: EntryType) {
         mainActivityState.update { state ->
-            state.copy(
-                entries = state.entries +
-                        MoneyEntry(
-                            amount = BigDecimal(state.entry.joinToString("")),
-                            qty = state.quantity,
-                            entryType = entryType
-                        )
-            )
+            if(state.entry.isNotEmpty()) {
+                state.copy(
+                    entries = state.entries +
+                            MoneyEntry(
+                                amount = BigDecimal(state.entry.joinToString("")),
+                                qty = state.quantity,
+                                entryType = entryType
+                            )
+                )
+            } else {
+                state.copy()
+            }
         }
         clearEntry()
         mainActivityState.update {state ->
@@ -152,9 +160,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteEntry(entry:MoneyEntry) {
         mainActivityState.update { state ->
-            state.copy(
-                entries = state.entries - entry
-            )
+
+                state.copy(
+                    entries = state.entries - entry
+                )
+
         }
         clearEntry()
         mainActivityState.update {state ->
@@ -193,9 +203,18 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    private fun updateTaxTotal(taxAmount:BigDecimal){
+        mainActivityState.update {state ->
+            state.copy(
+                totalTax = taxAmount
+            )
+        }
+    }
+
     private fun calculate() {
         clearSubTotal()
         clearTotal()
+        //clearTax()
         viewModelScope.launch {
             val state = mainActivityState.value
             state.entries.forEach { moneyEntry ->
@@ -219,6 +238,15 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                         .add(
                             moneyEntry.amount.multiply(taxAmount)
                         )
+                )
+                updateTaxTotal(
+                    state.totalTax.add(
+                        moneyEntry.amount.multiply(
+                            taxAmount.multiply(
+                                moneyEntry.qty
+                            )
+                        )
+                    )
                 )
             }
         }

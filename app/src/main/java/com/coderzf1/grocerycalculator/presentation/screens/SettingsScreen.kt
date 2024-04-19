@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.coderzf1.grocerycalculator.R
@@ -77,6 +79,17 @@ fun SettingsScreen(
                 .weight(1f)
         ){
             Column {
+                val focusColor = if(isSystemInDarkTheme()){
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.primary
+                }
+
+                val fieldColors = TextFieldDefaults.colors().copy(
+                    focusedLabelColor = focusColor,
+                    focusedIndicatorColor = focusColor
+                )
+
                 OutlinedTextField(
                     value = foodTax,
                     onValueChange = {
@@ -88,7 +101,8 @@ fun SettingsScreen(
                     label = {
                         Text("Food Tax %:")
                     },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    visualTransformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(painterResource(id = R.drawable.ic_percent),null, tint = (if(isSystemInDarkTheme())MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary).copy(alpha = .5f))
                     },
@@ -98,7 +112,8 @@ fun SettingsScreen(
                             Text("Value cannot be empty.")
                         }
                     },
-                    singleLine = true
+                    singleLine = true,
+                    colors = fieldColors
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
@@ -113,7 +128,8 @@ fun SettingsScreen(
                     label = {
                         Text("Nonfood Tax %:")
                     },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    visualTransformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(painterResource(id = R.drawable.ic_percent),null, tint = (if(isSystemInDarkTheme())MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary).copy(alpha = .5f))
                     },
@@ -123,7 +139,8 @@ fun SettingsScreen(
                             Text("Value cannot be empty.")
                         }
                     },
-                    singleLine = true
+                    singleLine = true,
+                    colors = fieldColors
                 )
             }
         }

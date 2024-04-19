@@ -1,5 +1,6 @@
 package com.coderzf1.grocerycalculator.presentation.screens.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -68,20 +69,36 @@ fun MainActivityAppBar(
                     )
                 )
                 Spacer(modifier = Modifier.width(4.dp))
+                val switchColors =
+                    if(isSystemInDarkTheme()) {
+                        SwitchDefaults.colors().copy(
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                            checkedBorderColor = Color.Transparent,
+                            checkedIconColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.background,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.tertiary,
+                            uncheckedBorderColor = Color.Transparent,
+                            uncheckedIconColor = Color.Transparent
+                        )
+                    } else {
+                        SwitchDefaults.colors().copy(
+                            checkedThumbColor = MaterialTheme.colorScheme.tertiary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                            checkedBorderColor = Color.Transparent,
+                            checkedIconColor = MaterialTheme.colorScheme.onTertiary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.background,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.tertiary,
+                            uncheckedBorderColor = Color.Transparent,
+                            uncheckedIconColor = Color.Transparent
+                        )
+                    }
+
                 Switch(checked = foodStampSwitchChecked,
                     onCheckedChange = {
                         foodStampSwitchOnCheckedChanged(it)
                     },
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                        checkedBorderColor = Color.Transparent,
-                        checkedIconColor = MaterialTheme.colorScheme.primary,
-                        uncheckedThumbColor = MaterialTheme.colorScheme.background,
-                        uncheckedTrackColor = MaterialTheme.colorScheme.tertiary,
-                        uncheckedBorderColor = Color.Transparent,
-                        uncheckedIconColor = Color.Transparent
-                    ),
+                    colors = switchColors,
                     thumbContent = {
                         Box(modifier = Modifier.padding(4.dp)){
                             Icon(

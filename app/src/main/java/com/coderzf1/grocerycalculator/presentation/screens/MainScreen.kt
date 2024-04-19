@@ -136,7 +136,20 @@ fun MainScreen(
                             onClick = {
                                 itemDeleted(value)
                             }) {
-                            Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete Item ${value.amount}", tint =  Color(75, 0, 0, 0xFF))
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Delete Item ${value.amount}",
+                                tint =
+                                if(state.entries.indexOf(value) % 2 == 0) {
+                                    Color(75, 0, 0, 0xFF)
+                                } else {
+                                    if(isSystemInDarkTheme()) {
+                                        Color(0x9E, 0x64, 0x64, 0xFF)
+                                    } else {
+                                        Color(75, 0, 0, 0xFF)
+                                    }
+                                }
+                            )
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                     }
@@ -217,6 +230,34 @@ fun MainScreen(
                 )
             }
         }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.End,
+
+                ) {
+                Text(
+                    text = "Tax ${state.totalTax.divide(hundred).toCurrencyFormat()}",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp, fontFamily = FontFamily(
+                            Font(
+                                R.font.montserrat
+                            )
+                        )
+                    ),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
+
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
