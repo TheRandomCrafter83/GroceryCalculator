@@ -37,6 +37,7 @@ import com.coderzf1.grocerycalculator.presentation.utils.withSound
 fun MainActivityAppBar(
     foodStampSwitchChecked:Boolean,
     foodStampSwitchOnCheckedChanged:(Boolean) -> Unit,
+    settingsIconVisible:Boolean = true,
     settingsClicked:() -> Unit
 ){
     TopAppBar(
@@ -110,18 +111,20 @@ fun MainActivityAppBar(
                     }
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                IconButton(
-                    onClick = {
-                        settingsClicked()
-                    }.withSound(LocalContext.current)
-                ) {
-                    Icon(
-                        Icons.Filled.Settings,
-                        contentDescription = "Settings",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
+                if(settingsIconVisible) {
+                    IconButton(
+                        onClick = {
+                            settingsClicked()
+                        }.withSound(LocalContext.current)
+                    ) {
+                        Icon(
+                            Icons.Filled.Settings,
+                            contentDescription = "Settings",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(4.dp))
                 }
-                Spacer(modifier = Modifier.width(4.dp))
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(

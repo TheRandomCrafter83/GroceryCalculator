@@ -211,6 +211,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun updateSettingsIconVisible(visible:Boolean){
+        mainActivityState.update {
+            it.copy(settingsIconVisible = visible)
+        }
+    }
+
     private fun calculate() {
         clearSubTotal()
         clearTotal()

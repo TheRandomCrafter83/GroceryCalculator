@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.coderzf1.grocerycalculator.R
 import com.coderzf1.grocerycalculator.presentation.states.MainScreenState
 import com.coderzf1.grocerycalculator.presentation.utils.withSound
@@ -93,7 +94,9 @@ fun SettingsScreen(
                 OutlinedTextField(
                     value = foodTax,
                     onValueChange = {
-                        foodTax = it
+                        if (it.isDigitsOnly()) {
+                            foodTax = it
+                        }
                     },
                     placeholder = {
                         Text("Food Tax %:")
@@ -119,7 +122,9 @@ fun SettingsScreen(
                 OutlinedTextField(
                     value = nonFoodTax,
                     onValueChange = {
-                        nonFoodTax = it
+                        if(it.isDigitsOnly()) {
+                            nonFoodTax = it
+                        }
                     },
                     placeholder = {
                         Text("Nonfood Tax %:")

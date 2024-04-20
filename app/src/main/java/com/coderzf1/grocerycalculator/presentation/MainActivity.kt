@@ -49,13 +49,18 @@ class MainActivity : ComponentActivity() {
                                 },
                                 settingsClicked = {
                                     navController.navigate(Screen.SettingsScreen.route)
-                                }
+                                    viewModel.updateSettingsIconVisible(false)
+                                },
+                                settingsIconVisible = state.settingsIconVisible
                             )
                         }
                     ){
-                        Box (modifier = Modifier.fillMaxSize().padding(it)) {
+                        Box (modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)) {
                             NavHost(navController = navController, Screen.MainScreen.route){
                                 composable (route = Screen.MainScreen.route){
+                                    viewModel.updateSettingsIconVisible(true)
                                     MainScreen(
                                         modifier = Modifier
                                             .fillMaxSize(),
@@ -83,9 +88,11 @@ class MainActivity : ComponentActivity() {
                                             viewModel.setFoodTax(foodTax)
                                             viewModel.setNonFoodTax(nonFoodTax)
                                             navController.popBackStack()
+                                            viewModel.updateSettingsIconVisible(true)
                                         },
                                         backArrowClicked = {
                                             navController.popBackStack()
+                                            viewModel.updateSettingsIconVisible(true)
                                         }
                                     )
                                 }
