@@ -129,16 +129,25 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setQty() {
         mainActivityState.update { state ->
+            var entryAsBigDecimal = if (state.entry.isEmpty()) BigDecimal.ONE else BigDecimal(state.entry.joinToString(""))
+            if (entryAsBigDecimal == BigDecimal.ZERO) entryAsBigDecimal = BigDecimal.ONE
             state.copy(
-                quantity = if(state.entry.isEmpty()) BigDecimal.ONE else BigDecimal(state.entry.joinToString ("")),
+                quantity = entryAsBigDecimal,
                 entry = emptyList()
             )
+
         }
     }
 
     fun addEntry(entryType: EntryType) {
+
         mainActivityState.update { state ->
-            if(state.entry.isNotEmpty()) {
+            val entryAsBigDecimal = if(state.entry.isNotEmpty()){
+                BigDecimal(state.entry.joinToString (""))
+            } else {
+                BigDecimal.ZERO
+            }
+            if(entryAsBigDecimal > BigDecimal.ZERO){
                 state.copy(
                     entries = state.entries +
                             MoneyEntry(
@@ -191,6 +200,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    private fun clearTax(){
+        mainActivityState.update { state ->
+            state.copy(totalTax = BigDecimal.ZERO)
+        }
+    }
+
     private fun updateSubTotal(amount: BigDecimal) {
         mainActivityState.update { state ->
             state.copy(subtotal = state.subtotal.add(amount))
@@ -206,21 +221,44 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private fun updateTaxTotal(taxAmount:BigDecimal){
         mainActivityState.update {state ->
             state.copy(
-                totalTax = taxAmount
+                totalTax = state.totalTax.add(taxAmount)
             )
         }
     }
 
     fun updateSettingsIconVisible(visible:Boolean){
-        mainActivityState.update {
-            it.copy(settingsIconVisible = visible)
+        mainActivityState.update {state ->
+            state.copy(
+                settingsIconVisible = visible
+            )
+        }
+    }
+
+    private fun calculateTax(){
+        clearTax()
+        viewModelScope.launch {
+            val state = mainActivityState.value
+            if(state.entries.isNotEmpty()) {
+                state.entries.forEach { moneyEntry ->
+                    val amount = moneyEntry.amount
+                    val qty = moneyEntry.qty
+                    val taxAmount = when (moneyEntry.entryType) {
+                        EntryType.FOOD -> if (state.isFoodStamp) BigDecimal.ZERO else state.foodTax
+                        EntryType.NONFOOD -> state.nonfoodTax
+                        EntryType.NONTAXED -> BigDecimal.ZERO
+                    }
+                    updateTaxTotal(
+                        amount.multiply(qty).multiply(taxAmount)
+                    )
+                }
+            }
         }
     }
 
     private fun calculate() {
         clearSubTotal()
         clearTotal()
-        //clearTax()
+        calculateTax()
         viewModelScope.launch {
             val state = mainActivityState.value
             state.entries.forEach { moneyEntry ->
@@ -244,15 +282,6 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                         .add(
                             moneyEntry.amount.multiply(taxAmount)
                         )
-                )
-                updateTaxTotal(
-                    state.totalTax.add(
-                        moneyEntry.amount.multiply(
-                            taxAmount.multiply(
-                                moneyEntry.qty
-                            )
-                        )
-                    )
                 )
             }
         }

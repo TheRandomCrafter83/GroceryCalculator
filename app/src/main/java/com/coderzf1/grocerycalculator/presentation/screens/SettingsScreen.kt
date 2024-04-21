@@ -1,5 +1,6 @@
 package com.coderzf1.grocerycalculator.presentation.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,6 +49,9 @@ fun SettingsScreen(
 ){
     var foodTax by remember{mutableStateOf(state.foodTax.multiply(BigDecimal(100)).toInt().toString())}
     var nonFoodTax by remember{mutableStateOf(state.nonfoodTax.multiply(BigDecimal(100)).toInt().toString())}
+    BackHandler {
+        backArrowClicked()
+    }
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally

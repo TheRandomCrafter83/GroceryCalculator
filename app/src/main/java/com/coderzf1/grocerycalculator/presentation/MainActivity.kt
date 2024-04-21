@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                     val state by viewModel.mainActivityState.collectAsState()
                     val foodStampSwitchChecked = state.isFoodStamp
                     val navController = rememberNavController()
+                    val settingsIconVisible = state.settingsIconVisible
                     Scaffold (
                         topBar = {
                             MainActivityAppBar(
@@ -48,10 +49,10 @@ class MainActivity : ComponentActivity() {
                                     viewModel.updateFoodStampSwitchState(it)
                                 },
                                 settingsClicked = {
-                                    navController.navigate(Screen.SettingsScreen.route)
                                     viewModel.updateSettingsIconVisible(false)
+                                    navController.navigate(Screen.SettingsScreen.route)
                                 },
-                                settingsIconVisible = state.settingsIconVisible
+                                settingsIconVisible = settingsIconVisible
                             )
                         }
                     ){
@@ -60,7 +61,7 @@ class MainActivity : ComponentActivity() {
                             .padding(it)) {
                             NavHost(navController = navController, Screen.MainScreen.route){
                                 composable (route = Screen.MainScreen.route){
-                                    viewModel.updateSettingsIconVisible(true)
+                                    //viewModel.updateSettingsIconVisible(true)
                                     MainScreen(
                                         modifier = Modifier
                                             .fillMaxSize(),
@@ -85,14 +86,14 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier.fillMaxSize(),
                                         state = state,
                                         saveSettingsClicked = { foodTax, nonFoodTax ->
+                                            viewModel.updateSettingsIconVisible(true)
                                             viewModel.setFoodTax(foodTax)
                                             viewModel.setNonFoodTax(nonFoodTax)
                                             navController.popBackStack()
-                                            viewModel.updateSettingsIconVisible(true)
                                         },
                                         backArrowClicked = {
-                                            navController.popBackStack()
                                             viewModel.updateSettingsIconVisible(true)
+                                            navController.popBackStack()
                                         }
                                     )
                                 }
