@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.coderzf1.grocerycalculator.R
@@ -34,8 +35,6 @@ import com.coderzf1.grocerycalculator.models.KeypadButton
 import com.coderzf1.grocerycalculator.models.MoneyEntry
 import com.coderzf1.grocerycalculator.presentation.screens.components.ButtonColumn
 import com.coderzf1.grocerycalculator.presentation.states.MainScreenState
-import com.coderzf1.grocerycalculator.presentation.ui.theme.colorDarkHighlight
-import com.coderzf1.grocerycalculator.presentation.ui.theme.colorHighlight
 import com.coderzf1.grocerycalculator.presentation.utils.toCurrencyFormat
 import java.math.BigDecimal
 
@@ -54,7 +53,7 @@ fun MainScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.tertiary),
+                .background(MaterialTheme.colorScheme.secondary),
         ) {
             Row(
                 modifier = Modifier
@@ -73,11 +72,13 @@ fun MainScreen(
                 Text(
                     text = "Qty: ${state.quantity} $textToDisplay",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp, fontFamily = FontFamily(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(
                             Font(
                                 R.font.montserrat
                             )
-                        )
+                        ),
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -88,7 +89,7 @@ fun MainScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .weight(.6f)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.secondary.copy(alpha = .25f)),
             state = rememberLazyListState()
         ) {
             items(
@@ -102,9 +103,9 @@ fun MainScreen(
                         .fillMaxWidth()
                         .background(
                             if (state.entries.indexOf(value) % 2 == 0) {
-                                MaterialTheme.colorScheme.onPrimary.copy(alpha = .75f)
+                                MaterialTheme.colorScheme.secondary.copy(alpha = .50f)
                             } else {
-                                MaterialTheme.colorScheme.background
+                                MaterialTheme.colorScheme.secondary.copy(alpha = .25f)
                             }
                         )
                         .padding(8.dp)
@@ -115,21 +116,30 @@ fun MainScreen(
                                 value.amount.divide(hundred).toCurrencyFormat()
                             }",
                             modifier = Modifier.weight(1f),
-                            color = if (state.entries.indexOf(value) % 2 == 0) {
-                                MaterialTheme.colorScheme.primary.copy(alpha = .75f)
-                            } else {
-                                MaterialTheme.colorScheme.onBackground
-                            }
+
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
                             text = value.entryType.name.first().uppercaseChar()
                                 .toString(),
-                            color = if (state.entries.indexOf(value) % 2 == 0) {
-                                MaterialTheme.colorScheme.primary.copy(alpha = .75f)
-                            } else {
-                                MaterialTheme.colorScheme.onBackground
-                            }
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         IconButton(
@@ -140,15 +150,11 @@ fun MainScreen(
                                 imageVector = Icons.Filled.Delete,
                                 contentDescription = "Delete Item ${value.amount}",
                                 tint =
-                                if(state.entries.indexOf(value) % 2 == 0) {
-                                    Color(75, 0, 0, 0xFF)
-                                } else {
                                     if(isSystemInDarkTheme()) {
                                         Color(0x9E, 0x64, 0x64, 0xFF)
                                     } else {
                                         Color(75, 0, 0, 0xFF)
                                     }
-                                }
                             )
                         }
                         Spacer(modifier = Modifier.width(8.dp))
@@ -161,7 +167,7 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
-                .background(if (isSystemInDarkTheme()) colorDarkHighlight else colorHighlight),
+                .background(MaterialTheme.colorScheme.secondary.copy(alpha = .75f)),
             buttonClicked = { button ->
                 when (button.id) {
                     3 -> buttonClicked(ActionId.DELETE_LAST_CHARACTER, null)
@@ -220,11 +226,13 @@ fun MainScreen(
                 Text(
                     text = "Subtotal: ${state.subtotal.divide(hundred).toCurrencyFormat()}",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp, fontFamily = FontFamily(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(
                             Font(
                                 R.font.montserrat
                             )
-                        )
+                        ),
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -246,11 +254,13 @@ fun MainScreen(
                 Text(
                     text = "Tax ${state.totalTax.divide(hundred).toCurrencyFormat()}",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp, fontFamily = FontFamily(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(
                             Font(
                                 R.font.montserrat
                             )
-                        )
+                        ),
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -273,11 +283,13 @@ fun MainScreen(
                 Text(
                     text = "Total ${state.total.divide(hundred).toCurrencyFormat()}",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp, fontFamily = FontFamily(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(
                             Font(
                                 R.font.montserrat
                             )
-                        )
+                        ),
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onPrimary
                 )

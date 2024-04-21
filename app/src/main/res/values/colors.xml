@@ -8,5 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="splash_background">#FFE4DAD6</color>
+    <color name="splash_background">#FF8293A2</color>
+
+    <color name="primaryBrown">#87AAC8</color>
+    <color name="secondaryPurple">#8DA9C1</color>
+    <color name="tertiaryBrown">#374650</color>
+    <color name="backgroundBrown">#FFD7CCC8</color>
+    <color name="primaryContainerBrown">#FF8C8F91</color>
 </resources>

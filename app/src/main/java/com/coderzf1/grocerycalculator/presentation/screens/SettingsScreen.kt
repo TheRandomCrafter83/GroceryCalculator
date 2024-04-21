@@ -30,10 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import com.coderzf1.grocerycalculator.R
 import com.coderzf1.grocerycalculator.presentation.states.MainScreenState
@@ -66,11 +70,21 @@ fun SettingsScreen(
                 onClick = { backArrowClicked()
                 }.withSound(LocalContext.current)
             ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack,"Back", tint = if(isSystemInDarkTheme())MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary)
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    "Back",
+                    tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+                )
             }
             Text(
                 text = "Settings",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontFamily = FontFamily(
+                        Font(
+                            R.font.montserrat
+                        )
+                    )
+                ),
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Start,
@@ -92,7 +106,7 @@ fun SettingsScreen(
 
                 val fieldColors = TextFieldDefaults.colors().copy(
                     focusedLabelColor = focusColor,
-                    focusedIndicatorColor = focusColor
+                    focusedIndicatorColor = focusColor,
                 )
 
                 OutlinedTextField(
@@ -103,10 +117,28 @@ fun SettingsScreen(
                         }
                     },
                     placeholder = {
-                        Text("Food Tax %:")
+                        Text("Food Tax %:",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            ))
                     },
                     label = {
-                        Text("Food Tax %:")
+                        Text("Food Tax %:",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            ))
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     visualTransformation = VisualTransformation.None,
@@ -116,7 +148,16 @@ fun SettingsScreen(
                     isError = foodTax.isEmpty(),
                     supportingText = {
                         if(foodTax.isEmpty()){
-                            Text("Value cannot be empty.")
+                            Text("Value cannot be empty.",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontSize = 18.sp,
+                                    fontFamily = FontFamily(
+                                        Font(
+                                            R.font.montserrat
+                                        )
+                                    ),
+                                    fontWeight = FontWeight.SemiBold
+                                ))
                         }
                     },
                     singleLine = true,
@@ -131,11 +172,29 @@ fun SettingsScreen(
                         }
                     },
                     placeholder = {
-                        Text("Nonfood Tax %:")
+                        Text("Nonfood Tax %:",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            ))
 
                     },
                     label = {
-                        Text("Nonfood Tax %:")
+                        Text("Nonfood Tax %:",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.montserrat
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold
+                            ))
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     visualTransformation = VisualTransformation.None,
@@ -145,7 +204,16 @@ fun SettingsScreen(
                     isError = nonFoodTax.isEmpty(),
                     supportingText = {
                         if(nonFoodTax.isEmpty()){
-                            Text("Value cannot be empty.")
+                            Text("Value cannot be empty.",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontSize = 18.sp,
+                                    fontFamily = FontFamily(
+                                        Font(
+                                            R.font.montserrat
+                                        )
+                                    ),
+                                    fontWeight = FontWeight.SemiBold
+                                ))
                         }
                     },
                     singleLine = true,
@@ -173,7 +241,16 @@ fun SettingsScreen(
                 }
             )
         ) {
-            Text("Save Settings")
+            Text("Save Settings",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(
+                        Font(
+                            R.font.montserrat
+                        )
+                    ),
+                    fontWeight = FontWeight.SemiBold
+                ))
         }
         Spacer(modifier = Modifier.height(16.dp))
     }

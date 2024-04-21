@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -51,7 +52,8 @@ fun ButtonRow(
                         fontFamily = FontFamily(
                             Font(R.font.montserrat)
                         ),
-                        fontSize = TextUnit(14f, TextUnitType.Sp)
+                        fontSize = TextUnit(14f, TextUnitType.Sp),
+                        fontWeight = FontWeight.SemiBold
                     ),
                     textAlign = TextAlign.Center,
                     lineHeight = TextUnit(14f,TextUnitType.Sp)

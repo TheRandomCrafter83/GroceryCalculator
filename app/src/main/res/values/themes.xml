@@ -2,5 +2,7 @@
 <resources>
 
     <style name="Theme.GroceryCalculator" parent="android:Theme.Material.Light.NoActionBar" >
+
+
     </style>
 </resources>

@@ -4,5 +4,8 @@
     <style name="Theme.GroceryCalculator" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>
         <item name="android:windowSplashScreenIconBackgroundColor">#00000000</item>
+
+        <item name="android:colorPrimary">@color/primaryBrown</item>
+        <item name="android:colorSecondary">@color/secondaryPurple</item>
     </style>
 </resources>
