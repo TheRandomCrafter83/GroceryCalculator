@@ -13,7 +13,7 @@ import com.coderzf1.grocerycalculator.models.KeypadButton
 fun ButtonColumn(
     modifier: Modifier = Modifier,
     buttonClicked: (button: KeypadButton) -> Unit,
-    rows:List<List<KeypadButton>> = emptyList()
+    rows: List<List<KeypadButton>> = emptyList()
 ){
     Column(
         modifier = modifier
@@ -25,11 +25,10 @@ fun ButtonColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                keypadButtons = rowInfo,
-                buttonClicked = {
-                    buttonClicked(it)
-                }
-            )
+                keypadButtons = rowInfo
+            ) {
+                buttonClicked(it)
+            }
         }
     }
 }

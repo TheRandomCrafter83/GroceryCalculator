@@ -1,6 +1,7 @@
 package com.coderzf1.grocerycalculator.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -27,85 +28,102 @@ import com.coderzf1.grocerycalculator.presentation.ui.theme.GroceryCalculatorThe
 class MainActivity : ComponentActivity() {
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             GroceryCalculatorTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val viewModel: MainActivityViewModel by viewModels()
-                    val state by viewModel.mainActivityState.collectAsState()
-                    val foodStampSwitchChecked = state.isFoodStamp
-                    val navController = rememberNavController()
-                    val settingsIconVisible = state.settingsIconVisible
-                    Scaffold (
-                        topBar = {
-                            MainActivityAppBar(
-                                foodStampSwitchChecked = foodStampSwitchChecked,
-                                foodStampSwitchOnCheckedChanged = {
-                                    viewModel.updateFoodStampSwitchState(it)
-                                },
-                                settingsClicked = {
-                                    viewModel.updateSettingsIconVisible(false)
-                                    navController.navigate(Screen.SettingsScreen.route)
-                                },
-                                settingsIconVisible = settingsIconVisible
-                            )
-                        }
-                    ){
-                        Box (modifier = Modifier
-                            .fillMaxSize()
-                            .padding(it)) {
-                            NavHost(navController = navController, Screen.MainScreen.route){
-                                composable (route = Screen.MainScreen.route){
-                                    //viewModel.updateSettingsIconVisible(true)
-                                    MainScreen(
-                                        modifier = Modifier
-                                            .fillMaxSize(),
-                                        state = state,
-                                        buttonClicked = {actionId, s ->
-                                            when(actionId){
-                                                ActionId.DELETE_LAST_CHARACTER -> viewModel.deleteLastCharacter()
-                                                ActionId.ADD_ENTRY_FOOD -> viewModel.addEntry(EntryType.FOOD)
-                                                ActionId.ADD_ENTRY_NONFOOD -> viewModel.addEntry(EntryType.NONFOOD)
-                                                ActionId.SET_QUANTITY -> viewModel.setQty()
-                                                ActionId.CLEAR_ALL -> viewModel.clearAll()
-                                                ActionId.APPEND_CHARACTER -> viewModel.appendCharacterToEntry(s!!)
+
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        val viewModel: MainActivityViewModel by viewModels()
+                        val state by viewModel.mainActivityState.collectAsState()
+                        val foodStampSwitchChecked = state.isFoodStamp
+                        val navController = rememberNavController()
+                        val settingsIconVisible = state.settingsIconVisible
+
+                        Scaffold(
+                            topBar = {
+                                MainActivityAppBar(
+                                    foodStampSwitchChecked = foodStampSwitchChecked,
+                                    foodStampSwitchOnCheckedChanged = {
+                                        viewModel.updateFoodStampSwitchState(it)
+                                    },
+                                    settingsClicked = {
+                                        viewModel.updateSettingsIconVisible(false)
+                                        navController.navigate(Screen.SettingsScreen.route)
+                                    },
+                                    settingsIconVisible = settingsIconVisible
+                                )
+                            }
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(it)
+                            ) {
+                                NavHost(navController = navController, Screen.MainScreen.route) {
+                                    composable(route = Screen.MainScreen.route) {
+                                        //viewModel.updateSettingsIconVisible(true)
+                                        MainScreen(
+                                            modifier = Modifier
+                                                .fillMaxSize(),
+                                            state = state,
+                                            buttonClicked = { actionId, s ->
+                                                when (actionId) {
+                                                    ActionId.DELETE_LAST_CHARACTER -> viewModel.deleteLastCharacter()
+                                                    ActionId.ADD_ENTRY_FOOD -> viewModel.addEntry(
+                                                        EntryType.FOOD
+                                                    )
+
+                                                    ActionId.ADD_ENTRY_NONFOOD -> viewModel.addEntry(
+                                                        EntryType.NONFOOD
+                                                    )
+
+                                                    ActionId.SET_QUANTITY -> viewModel.setQty()
+                                                    ActionId.CLEAR_ALL -> viewModel.clearAll()
+                                                    ActionId.APPEND_CHARACTER -> viewModel.appendCharacterToEntry(
+                                                        s!!
+                                                    )
+                                                }
+                                            },
+                                            itemDeleted = { moneyEntry ->
+                                                viewModel.deleteEntry(moneyEntry!!)
+                                            },
+                                            showTapTargets = viewModel.showTapTargets,
+                                            onTapTargetComplete = {
+                                                viewModel.setTapTargetDone()
+                                                Log.d("TapTarget","TapDone")
                                             }
-                                        },
-                                        itemDeleted = {moneyEntry ->
-                                            viewModel.deleteEntry(moneyEntry!!)
-                                        }
-                                    )
-                                }
-                                composable (route = Screen.SettingsScreen.route){
-                                    SettingsScreen(
-                                        modifier = Modifier.fillMaxSize(),
-                                        state = state,
-                                        saveSettingsClicked = { foodTax, nonFoodTax ->
-                                            viewModel.updateSettingsIconVisible(true)
-                                            viewModel.setFoodTax(foodTax)
-                                            viewModel.setNonFoodTax(nonFoodTax)
-                                            navController.popBackStack()
-                                        },
-                                        backArrowClicked = {
-                                            viewModel.updateSettingsIconVisible(true)
-                                            navController.popBackStack()
-                                        }
-                                    )
+                                        )
+                                    }
+                                    composable(route = Screen.SettingsScreen.route) {
+                                        SettingsScreen(
+                                            modifier = Modifier.fillMaxSize(),
+                                            state = state,
+                                            saveSettingsClicked = { foodTax, nonFoodTax ->
+                                                viewModel.updateSettingsIconVisible(true)
+                                                viewModel.setFoodTax(foodTax)
+                                                viewModel.setNonFoodTax(nonFoodTax)
+                                                navController.popBackStack()
+                                            },
+                                            backArrowClicked = {
+                                                viewModel.updateSettingsIconVisible(true)
+                                                navController.popBackStack()
+                                            }
+                                        )
+                                    }
                                 }
                             }
+
+
                         }
-
-
                     }
                 }
             }
         }
     }
-}
+
 
 

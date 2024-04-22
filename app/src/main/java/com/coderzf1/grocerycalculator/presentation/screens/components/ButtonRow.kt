@@ -26,39 +26,44 @@ import com.coderzf1.grocerycalculator.presentation.utils.withSound
 @Composable
 fun ButtonRow(
     modifier: Modifier = Modifier,
-    keypadButtons:List<KeypadButton>,
-    buttonClicked:(button: KeypadButton)-> Unit
+    keypadButtons: List<KeypadButton>,
+    buttonClicked: (button: KeypadButton) -> Unit
 ){
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        keypadButtons.forEach { button ->
-            Button(
-                onClick = {
-                    buttonClicked(button)
-                }.withSound(LocalContext.current), modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = button.buttonColor ?: MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                shape = RoundedCornerShape(8.dp),
-                contentPadding = PaddingValues(4.dp)
-            ) {
-                Text(
-                    button.text, style = MaterialTheme.typography.titleMedium.copy(
-                        fontFamily = FontFamily(
-                            Font(R.font.montserrat)
-                        ),
-                        fontSize = TextUnit(14f, TextUnitType.Sp),
-                        fontWeight = FontWeight.SemiBold
+
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            keypadButtons.forEach { button ->
+
+                Button(
+                    onClick = {
+                        buttonClicked(button)
+                    }.withSound(LocalContext.current),
+                    modifier = button.modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = button.buttonColor ?: MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    textAlign = TextAlign.Center,
-                    lineHeight = TextUnit(14f,TextUnitType.Sp)
-                )
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
+                    Text(
+                        button.text, style = MaterialTheme.typography.titleMedium.copy(
+                            fontFamily = FontFamily(
+                                Font(R.font.montserrat)
+                            ),
+                            fontSize = TextUnit(14f, TextUnitType.Sp),
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        textAlign = TextAlign.Center,
+                        lineHeight = TextUnit(14f,TextUnitType.Sp)
+                    )
+                }
             }
         }
-    }
+
+
 }

@@ -13,6 +13,7 @@ data class MainScreenState(
     val nonfoodTax:BigDecimal = BigDecimal(.07),
     val isFoodStamp:Boolean = false,
     val totalTax:BigDecimal = BigDecimal.ZERO,
-    val settingsIconVisible:Boolean = true
+    val settingsIconVisible:Boolean = true,
+    val showTapTarget:Boolean = true
 )
 

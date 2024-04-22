@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -26,12 +27,16 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     private val nonFoodTaxSetting = stringPreferencesKey("nonfood_tax")
     private val foodTaxSetting    = stringPreferencesKey("food_tax")
+    private val showTapTargetSetting     = booleanPreferencesKey("show_tap_target")
 
+    var showTapTargets:Boolean = true
     init {
         viewModelScope.launch {
             val ft = BigDecimal(getFoodTaxSetting(app))
             val nt = BigDecimal(getNonFoodTaxSetting(app))
-            Log.d("INIT", "foodTax: $ft - nonfoodTax: $nt")
+            //val showTapTarget = getShowTapTargetSetting(app)
+            Log.d("INIT", "foodTax: $ft - nonfoodTax: $nt - showTapTargets: $showTapTargets")
+            showTapTargets  = getShowTapTargetSetting(app)
             mainActivityState.update {state ->
                 state.copy(
                     foodTax =  ft,
@@ -56,6 +61,10 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         return context.dataStore.data.firstOrNull()?.get(nonFoodTaxSetting)?:".07"
     }
 
+    private suspend fun getShowTapTargetSetting(context:Context):Boolean{
+        return context.dataStore.data.firstOrNull()?.get(showTapTargetSetting)?:true
+    }
+
     private suspend fun saveFoodTaxSetting(context:Context){
         context.dataStore.edit {preferences ->
             preferences[foodTaxSetting] = mainActivityState.value.foodTax.toString()
@@ -65,6 +74,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private suspend fun saveNonFoodTaxSetting(context:Context){
         context.dataStore.edit {preferences ->
             preferences[nonFoodTaxSetting] = mainActivityState.value.nonfoodTax.toString()
+        }
+    }
+
+    private suspend fun saveShowTapTargetSetting(context:Context){
+        context.dataStore.edit {preferences ->
+            preferences[showTapTargetSetting] = false
         }
     }
 
@@ -84,7 +99,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         calculate()
     }
 
-
+    fun setTapTargetDone(){
+        viewModelScope.launch {
+            saveShowTapTargetSetting(getApplication())
+        }
+        Log.d("VM","Saved TapTarget")
+    }
 
     private fun updateSettings(context: Context){
         viewModelScope.launch {
