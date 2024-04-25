@@ -29,18 +29,18 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val foodTaxSetting    = stringPreferencesKey("food_tax")
     private val showTapTargetSetting     = booleanPreferencesKey("show_tap_target")
 
-    var showTapTargets:Boolean = true
+    private var showTapTargets:Boolean = true
     init {
         viewModelScope.launch {
             val ft = BigDecimal(getFoodTaxSetting(app))
             val nt = BigDecimal(getNonFoodTaxSetting(app))
             //val showTapTarget = getShowTapTargetSetting(app)
             Log.d("INIT", "foodTax: $ft - nonfoodTax: $nt - showTapTargets: $showTapTargets")
-            showTapTargets  = getShowTapTargetSetting(app)
             mainActivityState.update {state ->
                 state.copy(
                     foodTax =  ft,
-                    nonfoodTax = nt
+                    nonfoodTax = nt,
+                    showTapTarget = getShowTapTargetSetting(app)
                 )
             }
         }
@@ -102,6 +102,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     fun setTapTargetDone(){
         viewModelScope.launch {
             saveShowTapTargetSetting(getApplication())
+        }
+        mainActivityState.update {state ->
+            state.copy(showTapTarget = false)
         }
         Log.d("VM","Saved TapTarget")
     }
@@ -204,7 +207,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun clearAll() {
         mainActivityState.update {
-            MainScreenState()
+            MainScreenState(showTapTarget = false)
         }
     }
 

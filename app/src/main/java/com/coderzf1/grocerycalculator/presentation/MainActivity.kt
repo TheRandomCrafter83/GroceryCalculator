@@ -91,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                             itemDeleted = { moneyEntry ->
                                                 viewModel.deleteEntry(moneyEntry!!)
                                             },
-                                            showTapTargets = viewModel.showTapTargets,
+                                            showTapTargets = state.showTapTarget,
                                             onTapTargetComplete = {
                                                 viewModel.setTapTargetDone()
                                                 Log.d("TapTarget","TapDone")

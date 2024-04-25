@@ -16,7 +16,10 @@
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.GroceryCalculator">
+            android:theme="@style/Theme.GroceryCalculator"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
