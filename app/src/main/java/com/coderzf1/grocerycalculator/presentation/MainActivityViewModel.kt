@@ -206,8 +206,16 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun clearAll() {
-        mainActivityState.update {
-            MainScreenState(showTapTarget = false)
+        mainActivityState.update {state ->
+            state.copy(
+                showTapTarget = false,
+                quantity = BigDecimal.ONE,
+                entry = emptyList(),
+                entries = emptyList(),
+                subtotal = BigDecimal.ZERO,
+                totalTax = BigDecimal.ZERO,
+                total = BigDecimal.ZERO,
+            )
         }
     }
 
